@@ -1,3 +1,5 @@
+import { isSessionKnownExpired, markSessionExpired, markSessionStarted } from '@/lib/session'
+
 export type ApiFieldErrors = Record<string, string>
 
 export class ApiError extends Error {
@@ -50,7 +52,51 @@ function isListEnvelope<T>(value: unknown): value is ApiList<T> {
   )
 }
 
-async function send(method: string, path: string, options: RequestOptions = {}): Promise<unknown> {
+let refreshInFlight: Promise<void> | null = null
+
+function refreshSession(): Promise<void> {
+  refreshInFlight ??= doRefresh().finally(() => {
+    refreshInFlight = null
+  })
+  return refreshInFlight
+}
+
+async function parseError(res: Response): Promise<ApiError> {
+  const payload: unknown = await res.json().catch(() => undefined)
+  if (isErrorEnvelope(payload)) {
+    const { status, code, message, fields } = payload.error
+    return new ApiError(status, code, message, fields ?? {})
+  }
+  return new ApiError(res.status, 'INVALID_RESPONSE', 'invalid response')
+}
+
+async function doRefresh(): Promise<void> {
+  let res: Response
+  try {
+    res = await fetch('/api/auth/refresh', {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: { Accept: 'application/json' },
+      signal: AbortSignal.timeout(10_000),
+    })
+  } catch {
+    throw new ApiError(0, 'NETWORK_ERROR', 'network error')
+  }
+  if (res.status === 204) {
+    markSessionStarted()
+    return
+  }
+  const error = await parseError(res)
+  if (error.status === 401 && error.code === 'SESSION_INVALID') markSessionExpired()
+  throw error
+}
+
+async function send(
+  method: string,
+  path: string,
+  options: RequestOptions = {},
+  retried = false,
+): Promise<unknown> {
   const { body, signal } = options
   let res: Response
   try {
@@ -69,14 +115,23 @@ async function send(method: string, path: string, options: RequestOptions = {}):
     throw new ApiError(0, 'NETWORK_ERROR', 'network error')
   }
   if (res.status === 204) return undefined
-  const payload: unknown = await res.json().catch(() => undefined)
   if (!res.ok) {
-    if (isErrorEnvelope(payload)) {
-      const { status, code, message, fields } = payload.error
-      throw new ApiError(status, code, message, fields ?? {})
+    const error = await parseError(res)
+    if (path.startsWith('/admin/') && error.status === 401) {
+      if (error.code === 'SESSION_INVALID') {
+        markSessionExpired()
+      } else if (error.code === 'UNAUTHENTICATED') {
+        if (retried) {
+          markSessionExpired()
+        } else if (!isSessionKnownExpired()) {
+          await refreshSession()
+          return send(method, path, options, true)
+        }
+      }
     }
-    throw new ApiError(res.status, 'INVALID_RESPONSE', 'invalid response')
+    throw error
   }
+  const payload: unknown = await res.json().catch(() => undefined)
   return payload
 }
 
@@ -99,6 +154,7 @@ async function list<T>(path: string, options?: RequestOptions): Promise<ApiList<
 export const api = {
   get: <T>(path: string, options?: RequestOptions) => request<T>('GET', path, options),
   post: <T>(path: string, options?: RequestOptions) => request<T>('POST', path, options),
+  postVoid: (path: string, options?: RequestOptions) => requestVoid('POST', path, options),
   put: <T>(path: string, options?: RequestOptions) => request<T>('PUT', path, options),
   patch: <T>(path: string, options?: RequestOptions) => request<T>('PATCH', path, options),
   delete: (path: string, options?: RequestOptions) => requestVoid('DELETE', path, options),

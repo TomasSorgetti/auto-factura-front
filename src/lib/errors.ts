@@ -15,6 +15,14 @@ export const API_ERROR_CODES = {
   SERVICE_NOT_READY: 'SERVICE_NOT_READY',
   NETWORK_ERROR: 'NETWORK_ERROR',
   INVALID_RESPONSE: 'INVALID_RESPONSE',
+  INVALID_CREDENTIALS: 'INVALID_CREDENTIALS',
+  SESSION_INVALID: 'SESSION_INVALID',
+  LOGIN_CHALLENGE_INVALID: 'LOGIN_CHALLENGE_INVALID',
+  INVALID_TOTP_CODE: 'INVALID_TOTP_CODE',
+  INVALID_RECOVERY_CODE: 'INVALID_RECOVERY_CODE',
+  TOO_MANY_ATTEMPTS: 'TOO_MANY_ATTEMPTS',
+  TOTP_ALREADY_ENABLED: 'TOTP_ALREADY_ENABLED',
+  TOTP_NOT_ENABLED: 'TOTP_NOT_ENABLED',
 } as const
 
 export type ApiErrorCode = (typeof API_ERROR_CODES)[keyof typeof API_ERROR_CODES]
@@ -34,6 +42,14 @@ export const ERROR_MESSAGES: Record<ApiErrorCode, string> = {
   SERVICE_NOT_READY: 'El servicio no está disponible en este momento.',
   NETWORK_ERROR: 'No pudimos conectarnos con el servidor. Revisá tu conexión.',
   INVALID_RESPONSE: 'El servidor respondió algo inesperado.',
+  INVALID_CREDENTIALS: 'El email o la contraseña no son correctos.',
+  SESSION_INVALID: 'Tu sesión venció. Volvé a ingresar.',
+  LOGIN_CHALLENGE_INVALID: 'El ingreso venció. Volvé a poner tu email y contraseña.',
+  INVALID_TOTP_CODE: 'El código no es válido. Probá con el siguiente que muestre la app.',
+  INVALID_RECOVERY_CODE: 'El código de recuperación no es válido o ya se usó.',
+  TOO_MANY_ATTEMPTS: 'Demasiados intentos. Esperá unos minutos y probá de nuevo.',
+  TOTP_ALREADY_ENABLED: 'El autenticador ya está configurado. Ingresá con tu código.',
+  TOTP_NOT_ENABLED: 'Todavía no configuraste el autenticador.',
 }
 
 function isApiErrorCode(code: string): code is ApiErrorCode {

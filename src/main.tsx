@@ -5,7 +5,10 @@ import { RouterProvider } from 'react-router/dom'
 import { Toaster } from 'sonner'
 import { queryClient } from '@/app/queryClient'
 import { router } from '@/app/router'
+import { registerSessionExpiry } from '@/app/session'
 import './index.css'
+
+registerSessionExpiry()
 
 const rootElement = document.getElementById('root')
 if (!rootElement) {
