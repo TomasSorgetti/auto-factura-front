@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from 'react-router'
 import { toast } from 'sonner'
-import { getMe, logout } from '@/features/auth/api'
+import { enrollTotp, getMe, login, logout, setupTotp, verifyRecovery, verifyTotp } from '@/features/auth/api'
 import { getErrorMessage } from '@/lib/errors'
 import { queryKeys } from '@/lib/queryKeys'
 
@@ -26,4 +26,24 @@ export function useLogout() {
       toast.error(getErrorMessage(error))
     },
   })
+}
+
+export function useLogin() {
+  return useMutation({ mutationFn: login })
+}
+
+export function useSetupTotp() {
+  return useMutation({ mutationFn: setupTotp })
+}
+
+export function useEnrollTotp() {
+  return useMutation({ mutationFn: enrollTotp })
+}
+
+export function useVerifyTotp() {
+  return useMutation({ mutationFn: verifyTotp })
+}
+
+export function useVerifyRecovery() {
+  return useMutation({ mutationFn: verifyRecovery })
 }

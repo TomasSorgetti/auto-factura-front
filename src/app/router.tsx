@@ -1,5 +1,6 @@
 import { createBrowserRouter, Navigate, redirect, type LoaderFunctionArgs } from 'react-router'
 import { AdminLayout } from '@/app/layouts/AdminLayout'
+import { AuthLayout } from '@/app/layouts/AuthLayout'
 import { hasSessionHint, isSessionKnownExpired } from '@/lib/session'
 
 function requireSession({ request }: LoaderFunctionArgs) {
@@ -8,8 +9,23 @@ function requireSession({ request }: LoaderFunctionArgs) {
   return redirect('/login?next=' + encodeURIComponent(url.pathname + url.search))
 }
 
+function redirectIfSession() {
+  return hasSessionHint() && !isSessionKnownExpired() ? redirect('/app') : null
+}
+
 export const router = createBrowserRouter([
   { path: '/', element: <Navigate to="/app" replace /> },
+  {
+    path: '/login',
+    Component: AuthLayout,
+    loader: redirectIfSession,
+    children: [
+      {
+        index: true,
+        lazy: () => import('@/features/auth/pages/LoginPage').then((m) => ({ Component: m.LoginPage })),
+      },
+    ],
+  },
   {
     path: '/app',
     Component: AdminLayout,
