@@ -22,3 +22,15 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# graft's local graph cache — regenerable, not committed (run `graft build`).
+/graft/
+
+.env
+.env.*
+!.env.example
+*.tsbuildinfo
+coverage
+.vite
+.eslintcache
+Thumbs.db
