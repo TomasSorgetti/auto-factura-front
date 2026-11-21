@@ -1,11 +1,12 @@
-import { LogOut, Receipt } from 'lucide-react'
-import { Link } from 'react-router'
+import { LogOut, Receipt, Settings } from 'lucide-react'
+import { Link, useLocation } from 'react-router'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useLogout, useMe } from '@/features/auth/queries'
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
+  SidebarGroup,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -16,6 +17,7 @@ import {
 export function AppSidebar() {
   const me = useMe()
   const logout = useLogout()
+  const { pathname } = useLocation()
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
@@ -30,7 +32,20 @@ export function AppSidebar() {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarContent />
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild isActive={pathname.startsWith('/app/settings')} tooltip="Configuración">
+                <Link to="/app/settings">
+                  <Settings className="size-4" aria-hidden="true" />
+                  <span>Configuración</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarGroup>
+      </SidebarContent>
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
