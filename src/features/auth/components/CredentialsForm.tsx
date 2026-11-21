@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Field, FieldError, FieldGroup, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { useLogin } from '@/features/auth/queries'
+import { LoginProviders } from './LoginProviders'
 import { credentialsSchema, type CredentialsValues } from '@/features/auth/schemas'
 import type { LoginStep } from '@/features/auth/types'
 import { ApiError } from '@/lib/api'
@@ -44,6 +45,7 @@ export function CredentialsForm({ notice, onSuccess }: CredentialsFormProps) {
   return (
     <form onSubmit={(event) => void submit(event)} noValidate className="flex flex-col gap-6">
       <h1 className="text-xl font-semibold">Ingresá a Auto Factura</h1>
+      <LoginProviders />
       {notice && (
         <Alert>
           <AlertDescription>{notice}</AlertDescription>

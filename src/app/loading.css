@@ -23,7 +23,7 @@
 #app-loading[data-boot], #app-loading[open] { display: grid; place-items: center; }
 #app-loading::backdrop { background: transparent; }
 html:has(#app-loading[open]) { overflow: hidden; }
-html:not(.dark) #app-loading[open] {
+html:not(.dark):not(:has(.auth-layout)) #app-loading[open] {
   --metal-highlight: #699ff5;
   --metal-mid: #6476d6;
   --metal-low: #9262c9;
