@@ -23,6 +23,10 @@ export const API_ERROR_CODES = {
   TOO_MANY_ATTEMPTS: 'TOO_MANY_ATTEMPTS',
   TOTP_ALREADY_ENABLED: 'TOTP_ALREADY_ENABLED',
   TOTP_NOT_ENABLED: 'TOTP_NOT_ENABLED',
+  CLIENT_CUIT_TAKEN: 'CLIENT_CUIT_TAKEN',
+  CLIENT_ARCHIVED: 'CLIENT_ARCHIVED',
+  CONTACT_EMAIL_TAKEN: 'CONTACT_EMAIL_TAKEN',
+  CONTACT_LIMIT_REACHED: 'CONTACT_LIMIT_REACHED',
 } as const
 
 export type ApiErrorCode = (typeof API_ERROR_CODES)[keyof typeof API_ERROR_CODES]
@@ -50,6 +54,10 @@ export const ERROR_MESSAGES: Record<ApiErrorCode, string> = {
   TOO_MANY_ATTEMPTS: 'Demasiados intentos. Esperá unos minutos y probá de nuevo.',
   TOTP_ALREADY_ENABLED: 'El autenticador ya está configurado. Ingresá con tu código.',
   TOTP_NOT_ENABLED: 'Todavía no configuraste el autenticador.',
+  CLIENT_CUIT_TAKEN: 'Ya hay un cliente con ese CUIT. Si está archivado, desarchivalo.',
+  CLIENT_ARCHIVED: 'El cliente está archivado. Desarchivalo para editarlo.',
+  CONTACT_EMAIL_TAKEN: 'Ese email ya está cargado en este cliente.',
+  CONTACT_LIMIT_REACHED: 'Llegaste al máximo de 20 contactos para este cliente.',
 }
 
 function isApiErrorCode(code: string): code is ApiErrorCode {

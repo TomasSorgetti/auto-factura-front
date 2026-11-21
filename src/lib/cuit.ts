@@ -5,6 +5,11 @@ export function normalizeCUIT(input: string): string {
   return input.replace(/[\s.-]/g, '')
 }
 
+export function formatCUIT(normalized: string): string {
+  if (!/^\d{11}$/.test(normalized)) return normalized
+  return `${normalized.slice(0, 2)}-${normalized.slice(2, 10)}-${normalized.slice(10)}`
+}
+
 export function isValidCUIT(normalized: string): boolean {
   if (!/^\d{11}$/.test(normalized) || !PREFIXES.has(normalized.slice(0, 2))) return false
   const sum = WEIGHTS.reduce((acc, weight, i) => acc + Number(normalized[i]) * weight, 0)

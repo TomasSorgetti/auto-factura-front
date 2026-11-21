@@ -36,6 +36,10 @@ export const router = createBrowserRouter([
         lazy: () => import('@/features/dashboard/pages/DashboardPage').then((m) => ({ Component: m.DashboardPage })),
       },
       {
+        path: 'clients',
+        lazy: () => import('@/features/clients/pages/ClientsPage').then((m) => ({ Component: m.ClientsPage })),
+      },
+      {
         path: 'settings',
         lazy: () => import('@/features/settings/pages/SettingsPage').then((m) => ({ Component: m.SettingsPage })),
       },
