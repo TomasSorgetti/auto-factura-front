@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { isValidCUIT, normalizeCUIT } from '@/lib/cuit'
-import { TAX_CONDITIONS } from '@/features/clients/types'
+import { CONTACT_ROLES, TAX_CONDITIONS } from '@/features/clients/types'
 
 export const clientSchema = z.object({
   legalName: z.string().trim().min(1, 'Completá la razón social.').max(200, 'Máximo 200 caracteres.'),
@@ -12,3 +12,13 @@ export const clientSchema = z.object({
 
 export type ClientFormValues = z.input<typeof clientSchema>
 export type ClientFormField = keyof ClientFormValues
+
+export const contactSchema = z.object({
+  name: z.string().trim().min(1, 'Completá el nombre.').max(120, 'Máximo 120 caracteres.'),
+  email: z.email('Revisá el email.').max(254, 'Revisá el email.'),
+  role: z.enum(CONTACT_ROLES, 'Elegí si recibe las facturas o va en copia.'),
+  portalAccess: z.boolean(),
+})
+
+export type ContactFormValues = z.input<typeof contactSchema>
+export type ContactFormField = keyof ContactFormValues

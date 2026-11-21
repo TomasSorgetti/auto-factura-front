@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router'
 import { EmptyState } from '@/components/app/EmptyState'
+import { FormDialog } from '@/components/app/FormDialog'
 import { ErrorState } from '@/components/app/ErrorState'
 import { ListSkeleton } from '@/components/app/ListSkeleton'
 import { PageHeader } from '@/components/app/PageHeader'
 import { Button } from '@/components/ui/button'
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { CLIENTS_PAGE_SIZE } from '@/features/clients/api'
 import { ClientForm } from '@/features/clients/components/ClientForm'
@@ -129,15 +129,14 @@ export function ClientsPage() {
         />
       </div>
       {renderList()}
-      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Nuevo cliente</DialogTitle>
-            <DialogDescription>Cargá los datos fiscales. Después sumás los contactos.</DialogDescription>
-          </DialogHeader>
-          <ClientForm onSubmit={createClient} submitLabel="Crear cliente" pending={create.isPending} />
-        </DialogContent>
-      </Dialog>
+      <FormDialog
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        title="Nuevo cliente"
+        description="Cargá los datos fiscales. Después sumás los contactos."
+      >
+        <ClientForm onSubmit={createClient} submitLabel="Crear cliente" pending={create.isPending} />
+      </FormDialog>
     </>
   )
 }
