@@ -6,9 +6,16 @@ import { Toaster } from 'sonner'
 import { queryClient } from '@/app/queryClient'
 import { router } from '@/app/router'
 import { registerSessionExpiry } from '@/app/session'
+import { initTheme, useTheme } from '@/lib/theme'
 import './index.css'
 
 registerSessionExpiry()
+initTheme()
+
+function ThemedToaster() {
+  const theme = useTheme()
+  return <Toaster theme={theme} position="bottom-right" richColors />
+}
 
 const rootElement = document.getElementById('root')
 if (!rootElement) {
@@ -19,7 +26,7 @@ createRoot(rootElement).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
-      <Toaster theme="light" position="bottom-right" richColors />
+      <ThemedToaster />
     </QueryClientProvider>
   </StrictMode>,
 )
