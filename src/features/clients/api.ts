@@ -40,6 +40,10 @@ export function updateClient(id: string, input: ClientInput) {
   return api.put<ClientDetail>(clientPath(id), { body: input })
 }
 
+export function deleteClient(id: string) {
+  return api.delete(clientPath(id))
+}
+
 export function archiveClient(id: string) {
   return api.post<ClientDetail>(`${clientPath(id)}/archive`)
 }

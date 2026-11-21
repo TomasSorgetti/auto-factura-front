@@ -1,6 +1,6 @@
 import { MoreHorizontal } from 'lucide-react'
 import { useState } from 'react'
-import { Link, useParams } from 'react-router'
+import { Link, useNavigate, useParams } from 'react-router'
 import { ConfirmDialog } from '@/components/app/ConfirmDialog'
 import { ErrorState } from '@/components/app/ErrorState'
 import { FormDialog } from '@/components/app/FormDialog'
@@ -13,11 +13,13 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { ClientForm } from '@/features/clients/components/ClientForm'
 import { ClientInfoCard } from '@/features/clients/components/ClientInfoCard'
 import { ContactForm } from '@/features/clients/components/ContactForm'
+import { DeleteClientDialog } from '@/features/clients/components/DeleteClientDialog'
 import { ContactsCard } from '@/features/clients/components/ContactsCard'
 import {
   useArchiveClient,
   useClient,
   useCreateContact,
+  useDeleteClient,
   useDeleteContact,
   useUnarchiveClient,
   useUpdateClient,
@@ -38,8 +40,11 @@ export function ClientDetailPage() {
   const createContact = useCreateContact(id)
   const updateContact = useUpdateContact(id)
   const deleteContact = useDeleteContact(id)
+  const deleteClient = useDeleteClient(id)
+  const navigate = useNavigate()
   const [editOpen, setEditOpen] = useState(false)
   const [archiveOpen, setArchiveOpen] = useState(false)
+  const [deleteOpen, setDeleteOpen] = useState(false)
   const [contactDialog, setContactDialog] = useState<ContactDialog | null>(null)
   const [contactToDelete, setContactToDelete] = useState<Contact | null>(null)
   const [actionError, setActionError] = useState<string | null>(null)
@@ -113,6 +118,9 @@ export function ClientDetailPage() {
           ) : (
             <DropdownMenuItem onSelect={() => setArchiveOpen(true)}>Archivar</DropdownMenuItem>
           )}
+          <DropdownMenuItem variant="destructive" onSelect={() => setDeleteOpen(true)}>
+            Eliminar
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
@@ -194,6 +202,22 @@ export function ClientDetailPage() {
             () => setArchiveOpen(false),
           )
         }
+      />
+      <DeleteClientDialog
+        open={deleteOpen}
+        onOpenChange={setDeleteOpen}
+        cuit={data.cuit}
+        pending={deleteClient.isPending}
+        onConfirm={() => {
+          setActionError(null)
+          deleteClient.mutate(undefined, {
+            onSuccess: () => void navigate('/app/clients', { replace: true }),
+            onError: (error) => {
+              setActionError(getErrorMessage(error))
+              setDeleteOpen(false)
+            },
+          })
+        }}
       />
       <ConfirmDialog
         open={contactToDelete !== null}

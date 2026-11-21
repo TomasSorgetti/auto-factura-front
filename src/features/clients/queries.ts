@@ -4,6 +4,7 @@ import {
   archiveClient,
   createClient,
   createContact,
+  deleteClient,
   deleteContact,
   getClient,
   listClients,
@@ -64,6 +65,18 @@ export function useArchiveClient(id: string) {
 export function useUnarchiveClient(id: string) {
   const handlers = useClientDetailMutation(id, 'Desarchivamos el cliente.')
   return useMutation({ mutationFn: () => unarchiveClient(id), ...handlers })
+}
+
+export function useDeleteClient(id: string) {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: () => deleteClient(id),
+    onSuccess: async () => {
+      queryClient.removeQueries({ queryKey: queryKeys.clients.detail(id) })
+      await queryClient.invalidateQueries({ queryKey: queryKeys.clients.all })
+      toast.success('Eliminamos el cliente.')
+    },
+  })
 }
 
 function useContactMutationHandlers(clientId: string, message: string) {
