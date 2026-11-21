@@ -3,10 +3,55 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="/src/app/loading.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Auto Factura</title>
   </head>
   <body>
+    <dialog id="app-loading" data-boot aria-label="Cargando Auto Factura">
+      <div class="loading-composition">
+        <div class="loading-stage" aria-hidden="true">
+          <div class="loading-shadow"></div>
+          <div class="loading-arrival">
+            <div class="loading-mark">
+              <svg class="loading-face" viewBox="0 0 32 32" aria-hidden="true">
+                <defs>
+                  <linearGradient id="loading-metal" gradientUnits="userSpaceOnUse" x1="3" y1="7" x2="29" y2="24">
+                    <stop class="metal-highlight" />
+                    <stop class="metal-mid" offset=".54" />
+                    <stop class="metal-low" offset="1" />
+                  </linearGradient>
+                  <g id="loading-profile">
+                    <polygon points="2,25 15,4 23,4 10,25" />
+                    <polygon points="16,21 24,8 30,25 21,25 19,19" />
+                  </g>
+                  <linearGradient id="loading-rim" x2=".65" y2="1">
+                    <stop stop-color="#eff9ff" />
+                    <stop offset=".5" stop-color="#c5c7ff" stop-opacity=".48" />
+                    <stop offset="1" stop-color="#d7afff" stop-opacity=".7" />
+                  </linearGradient>
+                  <mask id="loading-edge-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="32" height="32">
+                    <use href="#loading-profile" fill="none" stroke="white" stroke-width=".46" stroke-linejoin="round" />
+                  </mask>
+                  <linearGradient id="loading-reflection" x1="0" y1=".4" x2="1" y2=".6">
+                    <stop stop-color="white" stop-opacity="0" />
+                    <stop offset=".5" stop-color="white" />
+                    <stop offset="1" stop-color="white" stop-opacity="0" />
+                  </linearGradient>
+                </defs>
+                <use href="#loading-profile" fill="url(#loading-metal)" stroke="url(#loading-rim)" stroke-width=".18" />
+                <g mask="url(#loading-edge-mask)">
+                  <rect class="loading-glint" width="15" height="32" fill="url(#loading-reflection)" />
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <span role="status">Cargando Auto Factura</span>
+        <div class="loading-track" aria-hidden="true"></div>
+        <form method="dialog" hidden><button type="submit">Continuar mientras carga</button></form>
+      </div>
+    </dialog>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

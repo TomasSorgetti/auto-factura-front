@@ -4,6 +4,7 @@ import { QueryClientProvider } from '@tanstack/react-query'
 import { RouterProvider } from 'react-router/dom'
 import { Toaster } from 'sonner'
 import { queryClient } from '@/app/queryClient'
+import { beginEntryLoading } from '@/app/entryLoading'
 import { router } from '@/app/router'
 import { registerSessionExpiry } from '@/app/session'
 import { initTheme, useTheme } from '@/lib/theme'
@@ -11,6 +12,7 @@ import './index.css'
 
 registerSessionExpiry()
 initTheme()
+beginEntryLoading()
 
 function ThemedToaster() {
   const theme = useTheme()

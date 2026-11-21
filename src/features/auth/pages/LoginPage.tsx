@@ -1,6 +1,7 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router'
+import { beginEntryLoading } from '@/app/entryLoading'
 import { CredentialsForm } from '@/features/auth/components/CredentialsForm'
 import { RecoveryCodes } from '@/features/auth/components/RecoveryCodes'
 import { TotpForm } from '@/features/auth/components/TotpForm'
@@ -26,6 +27,7 @@ export function LoginPage() {
   const safeNext = next?.startsWith('/app') ? next : '/app'
 
   function finish() {
+    beginEntryLoading()
     markSessionStarted()
     void queryClient.invalidateQueries({ queryKey: queryKeys.auth.all })
     void navigate(safeNext, { replace: true })

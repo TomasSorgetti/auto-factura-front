@@ -1,4 +1,5 @@
-import { createBrowserRouter, Navigate, redirect, type LoaderFunctionArgs } from 'react-router'
+import { createBrowserRouter, redirect, type LoaderFunctionArgs, type RouteObject } from 'react-router'
+import { EntryError, EntryLayout } from '@/app/layouts/EntryLayout'
 import { AdminLayout } from '@/app/layouts/AdminLayout'
 import { AuthLayout } from '@/app/layouts/AuthLayout'
 import { hasSessionHint, isSessionKnownExpired } from '@/lib/session'
@@ -13,8 +14,8 @@ function redirectIfSession() {
   return hasSessionHint() && !isSessionKnownExpired() ? redirect('/app') : null
 }
 
-export const router = createBrowserRouter([
-  { path: '/', element: <Navigate to="/app" replace /> },
+const pages: RouteObject[] = [
+  { path: '/', loader: () => redirect('/app') },
   {
     path: '/login',
     Component: AuthLayout,
@@ -54,4 +55,11 @@ export const router = createBrowserRouter([
     path: '*',
     lazy: () => import('@/features/errors/pages/NotFoundPage').then((m) => ({ Component: m.NotFoundPage })),
   },
-])
+]
+
+export const router = createBrowserRouter([{
+  Component: EntryLayout,
+  ErrorBoundary: EntryError,
+  HydrateFallback: () => null,
+  children: pages,
+}])
