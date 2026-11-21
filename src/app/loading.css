@@ -18,7 +18,7 @@
   overflow: auto;
   background: #141517;
   color: #c5c6c8;
-  font: 500 14px/1.5 system-ui, sans-serif;
+  font: 500 14px/1.5 "Manrope Variable", system-ui, sans-serif;
 }
 #app-loading[data-boot], #app-loading[open] { display: grid; place-items: center; }
 #app-loading::backdrop { background: transparent; }
