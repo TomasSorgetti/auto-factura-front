@@ -9,12 +9,12 @@ export function AdminLayout() {
     <TooltipProvider>
       <SidebarProvider>
         <AppSidebar />
-        <SidebarInset>
-          <header className="flex h-14 items-center gap-2 border-b px-4">
+        <SidebarInset className="bg-muted/30">
+          <header className="sticky top-0 z-10 flex h-14 items-center gap-2 border-b bg-background/80 px-4 backdrop-blur">
             <SidebarTrigger aria-label="Abrir o cerrar menú" />
             <Separator orientation="vertical" className="h-4" />
           </header>
-          <main className="flex flex-1 flex-col gap-4 p-4 md:p-6">
+          <main className="flex flex-1 flex-col gap-4 p-4 md:p-8">
             <Outlet />
           </main>
         </SidebarInset>

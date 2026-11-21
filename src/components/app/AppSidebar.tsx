@@ -1,4 +1,4 @@
-import { LogOut, Receipt, Settings, Users } from 'lucide-react'
+import { LayoutDashboard, LogOut, Receipt, Settings, Users } from 'lucide-react'
 import { Link, useLocation } from 'react-router'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useLogout, useMe } from '@/features/auth/queries'
@@ -35,6 +35,14 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton asChild isActive={pathname === '/app'} tooltip="Inicio">
+                <Link to="/app">
+                  <LayoutDashboard className="size-4" aria-hidden="true" />
+                  <span>Inicio</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
             <SidebarMenuItem>
               <SidebarMenuButton asChild isActive={pathname.startsWith('/app/clients')} tooltip="Clientes">
                 <Link to="/app/clients">
