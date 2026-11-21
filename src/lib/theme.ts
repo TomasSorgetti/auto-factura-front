@@ -20,7 +20,7 @@ function readStoredTheme(): Theme | null {
 }
 
 function resolveInitialTheme(): Theme {
-  return readStoredTheme() ?? (matchMedia('(prefers-color-scheme: dark)').matches ? THEME.dark : THEME.light)
+  return readStoredTheme() ?? THEME.dark
 }
 
 let current: Theme = THEME.light

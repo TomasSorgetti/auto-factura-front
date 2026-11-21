@@ -13,3 +13,9 @@ export function parseARSToCents(input: string): number | null {
   const cents = Number(integerPart.replaceAll('.', '') + decimalPart.padEnd(2, '0'))
   return Number.isSafeInteger(cents) ? cents : null
 }
+
+const wholePesos = new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 })
+
+export function formatWholeARS(cents: number): string {
+  return wholePesos.format(cents / 100)
+}

@@ -1,3 +1,4 @@
+import { Plus, Search } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router'
 import { EmptyState } from '@/components/app/EmptyState'
@@ -31,7 +32,16 @@ export function ClientsPage() {
   const status = parseStatus(searchParams.get('status'))
   const page = parsePage(searchParams.get('page'))
   const [search, setSearch] = useState(q)
-  const [dialogOpen, setDialogOpen] = useState(false)
+  const dialogOpen = searchParams.get('new') === '1'
+
+  function setDialogOpen(open: boolean) {
+    setSearchParams(prev => {
+      const next = new URLSearchParams(prev)
+      if (open) next.set('new', '1')
+      else next.delete('new')
+      return next
+    }, { replace: true })
+  }
 
   const clients = useClients({ q, status, page })
   const create = useCreateClient()
@@ -74,11 +84,13 @@ export function ClientsPage() {
 
   async function createClient(input: ClientInput) {
     const client = await create.mutateAsync(input)
-    setDialogOpen(false)
-    void navigate(`/app/clients/${encodeURIComponent(client.id)}`)
+    const listParams = new URLSearchParams(searchParams)
+    listParams.delete('new')
+    await navigate({ pathname: '/app/clients', search: listParams.toString() }, { replace: true })
+    await navigate(`/app/clients/${encodeURIComponent(client.id)}`)
   }
 
-  const newClientButton = <Button onClick={() => setDialogOpen(true)}>Nuevo cliente</Button>
+  const newClientButton = <Button onClick={() => setDialogOpen(true)}><Plus aria-hidden="true" />Nuevo cliente</Button>
   const pageCount = clients.data ? Math.max(1, Math.ceil(clients.data.total / CLIENTS_PAGE_SIZE)) : 1
   const isFiltered = q !== '' || status === 'archived'
 
@@ -106,29 +118,25 @@ export function ClientsPage() {
   return (
     <>
       <PageHeader title="Clientes" description="A quiénes les facturás" actions={newClientButton} />
-      <div className="flex flex-col gap-3 md:flex-row md:items-center">
-        <div className="flex gap-2">
-          <Button variant={status === 'active' ? 'default' : 'outline'} size="sm" onClick={() => changeStatus('active')}>
-            Activos
-          </Button>
-          <Button
-            variant={status === 'archived' ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => changeStatus('archived')}
-          >
-            Archivados
-          </Button>
+      <section className="client-directory" aria-label="Directorio de clientes">
+        <div className="directory-toolbar">
+          <div className="status-options" role="group" aria-label="Estado del cliente">
+            <button type="button" aria-pressed={status === 'active'} onClick={() => changeStatus('active')}>Activos</button>
+            <button type="button" aria-pressed={status === 'archived'} onClick={() => changeStatus('archived')}>Archivados</button>
+          </div>
+          <label className="directory-search">
+            <Search aria-hidden="true" />
+            <Input
+              type="search"
+              aria-label="Buscar por razón social o CUIT"
+              placeholder="Buscar por razón social o CUIT"
+              value={search}
+              onChange={(event) => setSearch(event.target.value)}
+            />
+          </label>
         </div>
-        <Input
-          type="search"
-          className="md:max-w-sm"
-          aria-label="Buscar por razón social o CUIT"
-          placeholder="Buscar por razón social o CUIT"
-          value={search}
-          onChange={(event) => setSearch(event.target.value)}
-        />
-      </div>
-      {renderList()}
+        <div className="directory-results">{renderList()}</div>
+      </section>
       <FormDialog
         open={dialogOpen}
         onOpenChange={setDialogOpen}

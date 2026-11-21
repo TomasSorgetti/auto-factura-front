@@ -1,3 +1,4 @@
+import { ContactRound } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { TAX_CONDITION_LABELS, type ClientDetail } from '@/features/clients/types'
 import { formatCUIT } from '@/lib/cuit'
@@ -10,13 +11,13 @@ export function ClientInfoCard({ client }: ClientInfoCardProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Datos</CardTitle>
+        <CardTitle className="section-title"><ContactRound aria-hidden="true" />Datos fiscales</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
         <dl className="grid gap-4 text-sm sm:grid-cols-3">
           <div className="flex flex-col gap-1">
             <dt className="text-muted-foreground">CUIT</dt>
-            <dd>{formatCUIT(client.cuit)}</dd>
+            <dd className="font-mono">{formatCUIT(client.cuit)}</dd>
           </div>
           <div className="flex flex-col gap-1">
             <dt className="text-muted-foreground">Condición frente al IVA</dt>

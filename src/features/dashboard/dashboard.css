@@ -1,0 +1,500 @@
+.dashboard {
+  container-type: inline-size;
+}
+.dashboard > :first-child {
+  margin-bottom: 2rem;
+}
+.overview-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+  flex-wrap: wrap;
+}
+.overview-heading h2,
+.panel-heading h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+.demo-note {
+  color: var(--muted-foreground);
+  border: 1px solid var(--border);
+  padding: 2px 7px;
+  border-radius: 5px;
+  font-size: 0.65rem;
+}
+.period-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-left: auto;
+  color: var(--muted-foreground);
+  font-size: 0.75rem;
+}
+.period-label svg {
+  width: 14px;
+  height: 14px;
+}
+.overview-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.85fr) repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.overview-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  isolation: isolate;
+  min-width: 0;
+  min-height: 255px;
+  padding: 20px;
+  text-align: left;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  background: var(--card);
+  transition:
+    border-color 180ms,
+    box-shadow 180ms;
+}
+.overview-tile::before {
+  content: '';
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: radial-gradient(var(--art-grid) 0.85px, transparent 0.85px);
+  background-size: 12px 12px;
+  mask-image: linear-gradient(transparent 15%, black 52%, transparent 99%);
+}
+.overview-tile:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+}
+.tile-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.89rem;
+  font-weight: 580;
+  letter-spacing: -0.025em;
+}
+.tile-title svg {
+  width: 16px;
+  height: 16px;
+  stroke-width: 1.6;
+}
+.tile-description {
+  font-size: 0.77rem;
+  color: var(--muted-foreground);
+  margin-top: 7px;
+}
+.tile-arrow {
+  position: absolute;
+  right: 13px;
+  top: 13px;
+  width: 13px;
+  height: 13px;
+  color: var(--muted-foreground);
+  opacity: 0.65;
+  transition:
+    transform 240ms ease,
+    color 180ms;
+}
+.billing-tile {
+  color: #f0f8f2;
+  border-color: #30503d;
+  padding: 22px;
+  background: radial-gradient(ellipse at 91% 52%, #20402e 0%, #142b1f 43%, #122219 83%);
+}
+.billing-tile::before {
+  background-image: radial-gradient(#83ca933e 0.9px, transparent 0.9px);
+  background-size: 11px 11px;
+  mask-image: linear-gradient(100deg, transparent, #000 65%);
+}
+.billing-tile .tile-title svg {
+  color: #9ddab4;
+}
+.billing-tile .tile-arrow {
+  color: #a0c8af;
+}
+.billing-total {
+  margin-top: 22px;
+  font-weight: 550;
+  font-size: clamp(2.05rem, 3.6cqw, 3.35rem);
+  letter-spacing: -0.07em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.billing-change {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #adc0b2;
+  font-size: 0.68rem;
+  margin-top: 9px;
+}
+.billing-change > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #9ee8b7;
+}
+.billing-change svg {
+  width: 13px;
+  height: 13px;
+}
+.invoice-art {
+  overflow: visible;
+}
+.billing-tile .invoice-art {
+  position: absolute;
+  width: 56%;
+  right: -4%;
+  bottom: 7px;
+  z-index: -1;
+}
+.invoice-sheet {
+  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.billing-breakdown {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: auto;
+  padding-top: 24px;
+}
+.billing-breakdown > span {
+  display: grid;
+  gap: 4px;
+}
+.billing-breakdown > span + span {
+  border-left: 1px solid #3b5041;
+  padding-left: 14px;
+}
+.billing-breakdown small {
+  color: #b2c4b7;
+  font-size: 0.68rem;
+}
+.billing-breakdown strong {
+  font-size: 0.86rem;
+  font-weight: 550;
+  letter-spacing: -0.02em;
+}
+.circuit-art,
+.tax-art {
+  position: absolute;
+  width: 100%;
+  height: 118px;
+  left: 0;
+  bottom: 46px;
+}
+.circuit-art {
+  color: var(--circuit-line);
+}
+.circuit-node {
+  stroke: var(--circuit-line);
+  fill: var(--card);
+}
+.circuit-node svg {
+  color: var(--muted-foreground);
+}
+.circuit-halo {
+  fill: var(--accent);
+  stroke: var(--circuit-line);
+}
+.circuit-core {
+  fill: var(--card);
+  stroke: var(--chart-1);
+}
+.circuit-bolt {
+  fill: var(--chart-1);
+  color: var(--chart-1);
+}
+.circuit-signal {
+  stroke: var(--chart-1);
+  stroke-width: 2;
+  stroke-dasharray: 14 100;
+  stroke-dashoffset: 25;
+}
+.tax-art {
+  height: 113px;
+}
+.meter-value {
+  fill: var(--foreground);
+  font-weight: 550;
+  letter-spacing: -0.06em;
+  font-size: 31px;
+}
+.meter-label {
+  fill: var(--muted-foreground);
+  font:
+    8px ui-monospace,
+    monospace;
+  letter-spacing: 1.4px;
+}
+.tile-caption {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: auto;
+  color: var(--muted-foreground);
+  font: 0.69rem var(--font-mono);
+}
+.tile-caption i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--chart-1);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--chart-1) 12%, transparent);
+}
+.dashboard-panels {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+  gap: 14px;
+  margin-top: 16px;
+}
+.panel {
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  background: var(--card);
+}
+.panel-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.panel-heading p {
+  margin-top: 4px;
+  color: var(--muted-foreground);
+  font-size: 0.77rem;
+}
+.panel-icon {
+  width: 16px;
+  height: 16px;
+  color: var(--muted-foreground);
+}
+.chart-key {
+  display: flex;
+  gap: 16px;
+  padding: 18px 0 8px;
+  font-size: 0.7rem;
+  color: var(--muted-foreground);
+}
+.chart-key span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.chart-key span::before {
+  content: '';
+  width: 12px;
+  border-top: 2px solid var(--chart-1);
+}
+.chart-key span + span::before {
+  border-top: 2px dashed var(--chart-3);
+}
+.schedule-panel ul {
+  margin-top: 14px;
+}
+.schedule-panel li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 0;
+  font-size: 0.8rem;
+}
+.schedule-panel li + li {
+  border-top: 1px solid var(--border);
+}
+.schedule-panel li:last-child {
+  padding-bottom: 0;
+}
+.schedule-panel li > strong {
+  margin-left: auto;
+  font: 0.76rem var(--font-mono);
+  white-space: nowrap;
+}
+.schedule-panel time {
+  width: 35px;
+  height: 36px;
+  flex: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--muted);
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  line-height: 1;
+  gap: 2px;
+}
+.schedule-panel time strong {
+  font-weight: 550;
+  font-size: 0.87rem;
+}
+.schedule-panel time small {
+  font: 8px var(--font-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+@media (hover: hover) and (pointer: fine) {
+  .overview-tile:hover {
+    border-color: var(--circuit-line);
+    box-shadow: inset 0 0 32px color-mix(in srgb, var(--primary) 4%, transparent);
+  }
+  .billing-tile:hover {
+    border-color: #628d70;
+  }
+  .overview-tile:hover .tile-arrow {
+    transform: translate(2px, -2px);
+    color: var(--primary);
+  }
+  .billing-tile:hover .sheet-3 {
+    transform: translateY(-12px);
+  }
+  .billing-tile:hover .sheet-2 {
+    transform: translateY(-6px);
+  }
+  .billing-tile:hover .sheet-0 {
+    transform: translateY(4px);
+  }
+  .automation-tile:hover .circuit-signal {
+    animation: transmit 1.2s linear infinite;
+  }
+  .tax-tile:hover .tax-art {
+    transform: translateY(-3px);
+  }
+  .tax-tile:hover .meter-active {
+    animation: meter-sweep 300ms ease-out;
+  }
+  .tax-art {
+    transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+@keyframes meter-sweep {
+  50% {
+    stroke: #b9facf;
+  }
+}
+@keyframes transmit {
+  to {
+    stroke-dashoffset: -89;
+  }
+}
+@container (max-width: 880px) {
+  .overview-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .billing-tile {
+    grid-column: 1 / -1;
+    min-height: 215px;
+  }
+  .billing-tile .invoice-art {
+    width: min(48%, 290px);
+    right: 3%;
+    bottom: -3%;
+  }
+  .billing-total {
+    font-size: 2.7rem;
+  }
+  .automation-tile,
+  .tax-tile {
+    min-height: 218px;
+  }
+  .circuit-art,
+  .tax-art {
+    height: 98px;
+    bottom: 36px;
+  }
+  .dashboard-panels {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  }
+}
+@container (max-width: 680px) {
+  .dashboard-panels {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .dashboard > :first-child {
+    margin-bottom: 1.6rem;
+  }
+}
+@container (max-width: 460px) {
+  .overview-grid {
+    gap: 9px;
+  }
+  .overview-heading {
+    gap: 6px 9px;
+  }
+  .period-label {
+    font-size: 0.65rem;
+  }
+  .overview-tile {
+    padding: 15px;
+  }
+  .billing-tile {
+    padding: 18px;
+    min-height: 215px;
+  }
+  .billing-tile .invoice-art {
+    width: 50%;
+    right: -4%;
+    bottom: 2%;
+  }
+  .billing-total {
+    font-size: 2.2rem;
+  }
+  .tile-title {
+    font-size: 0.8rem;
+    gap: 5px;
+  }
+  .tile-title svg {
+    width: 14px;
+    height: 14px;
+  }
+  .tile-arrow {
+    top: auto;
+    bottom: 16px;
+    right: 10px;
+  }
+  .billing-tile .tile-arrow {
+    top: 16px;
+    right: 16px;
+    bottom: auto;
+  }
+  .tile-description {
+    font-size: 0.71rem;
+  }
+  .tile-caption {
+    font-size: 0.63rem;
+  }
+  .panel {
+    padding: 17px;
+  }
+}
+@container (max-width: 320px) {
+  .overview-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .automation-tile,
+  .tax-tile {
+    min-height: 205px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .overview-tile,
+  .overview-tile * {
+    animation: none !important;
+    transition: none !important;
+  }
+  .overview-tile:hover .invoice-sheet,
+  .overview-tile:hover .tax-art,
+  .overview-tile:hover .tile-arrow {
+    transform: none;
+  }
+}

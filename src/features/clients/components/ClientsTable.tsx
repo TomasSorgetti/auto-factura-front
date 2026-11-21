@@ -4,7 +4,16 @@ import { TAX_CONDITION_LABELS, type ClientSummary } from '@/features/clients/typ
 import { formatCUIT } from '@/lib/cuit'
 
 const COLUMNS: DataTableColumn<ClientSummary>[] = [
-  { accessorKey: 'legalName', header: 'Razón social' },
+  {
+    accessorKey: 'legalName',
+    header: 'Razón social',
+    cell: ({ row }) => (
+      <span className="flex items-center gap-3 font-medium">
+        <span className="client-initial" aria-hidden="true">{row.original.legalName.slice(0, 1)}</span>
+        {row.original.legalName}
+      </span>
+    ),
+  },
   { accessorKey: 'cuit', header: 'CUIT', cell: ({ row }) => formatCUIT(row.original.cuit) },
   {
     accessorKey: 'taxCondition',

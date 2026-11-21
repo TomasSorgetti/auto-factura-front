@@ -30,9 +30,9 @@ export function DataTable<T extends RowData>({ columns, data, onRowClick, pagina
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="hidden md:block">
+      <div className="hidden overflow-hidden rounded-xl border bg-card md:block">
         <Table>
-          <TableHeader>
+          <TableHeader className="bg-muted/70">
             {table.getHeaderGroups().map((group) => (
               <TableRow key={group.id}>
                 {group.headers.map((header) => (

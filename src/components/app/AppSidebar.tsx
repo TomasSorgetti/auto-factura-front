@@ -1,4 +1,4 @@
-import { LayoutDashboard, LogOut, Receipt, Settings, Users } from 'lucide-react'
+import { LayoutDashboard, LogOut, Settings2, UserRound, Users } from 'lucide-react'
 import { Link, useLocation } from 'react-router'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useLogout, useMe } from '@/features/auth/queries'
@@ -7,25 +7,34 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
+  useSidebar,
 } from '@/components/ui/sidebar'
+
+const sections = [
+  { title: 'Inicio', path: '/app', icon: LayoutDashboard },
+  { title: 'Clientes', path: '/app/clients', icon: Users },
+  { title: 'Configuración', path: '/app/settings', icon: Settings2 },
+]
 
 export function AppSidebar() {
   const me = useMe()
   const logout = useLogout()
   const { pathname } = useLocation()
+  const { setOpenMobile } = useSidebar()
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader>
+      <SidebarHeader className="brand-header">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
-              <Link to="/app">
-                <Receipt className="size-4" aria-hidden="true" />
+            <SidebarMenuButton asChild tooltip="Auto Factura" className="brand-link">
+              <Link to="/app" onClick={() => setOpenMobile(false)} aria-label="Auto Factura, inicio">
+                <img src="/favicon.svg" alt="" />
                 <span>Auto Factura</span>
               </Link>
             </SidebarMenuButton>
@@ -33,49 +42,52 @@ export function AppSidebar() {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarGroup>
+        <SidebarGroup className="nav-group">
+          <SidebarGroupLabel>Navegación</SidebarGroupLabel>
           <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild isActive={pathname === '/app'} tooltip="Inicio">
-                <Link to="/app">
-                  <LayoutDashboard className="size-4" aria-hidden="true" />
-                  <span>Inicio</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild isActive={pathname.startsWith('/app/clients')} tooltip="Clientes">
-                <Link to="/app/clients">
-                  <Users className="size-4" aria-hidden="true" />
-                  <span>Clientes</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton asChild isActive={pathname.startsWith('/app/settings')} tooltip="Configuración">
-                <Link to="/app/settings">
-                  <Settings className="size-4" aria-hidden="true" />
-                  <span>Configuración</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
+            {sections.map(({ title, path, icon: Icon }) => {
+              const active = path === '/app' ? pathname === path : pathname.startsWith(path)
+              return (
+                <SidebarMenuItem key={path}>
+                  <SidebarMenuButton asChild isActive={active} tooltip={title} className="nav-link">
+                    <Link
+                      to={path}
+                      aria-current={active ? 'page' : undefined}
+                      onClick={() => setOpenMobile(false)}
+                    >
+                      <Icon aria-hidden="true" />
+                      <span>{title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              )
+            })}
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter>
+      <SidebarFooter className="account-footer">
+        <div className="account-info">
+          <span className="account-avatar">
+            <UserRound size={15} />
+          </span>
+          <div className="min-w-0 group-data-[collapsible=icon]:hidden">
+            <b>Mi cuenta</b>
+            {me.isPending ? (
+              <Skeleton className="h-3 w-24" />
+            ) : (
+              <p>{me.isError ? 'Usuario no disponible' : me.data.email}</p>
+            )}
+          </div>
+        </div>
         <SidebarMenu>
           <SidebarMenuItem>
-            {me.isPending ? (
-              <Skeleton className="mx-2 h-4 w-32" />
-            ) : (
-              <p className="truncate px-2 text-sm text-muted-foreground">
-                {me.isError ? 'No pudimos cargar tu usuario.' : me.data.email}
-              </p>
-            )}
-          </SidebarMenuItem>
-          <SidebarMenuItem>
-            <SidebarMenuButton onClick={() => logout.mutate()} disabled={logout.isPending}>
-              <LogOut className="size-4" aria-hidden="true" />
+            <SidebarMenuButton
+              tooltip="Cerrar sesión"
+              aria-label="Cerrar sesión"
+              onClick={() => logout.mutate()}
+              disabled={logout.isPending}
+            >
+              <LogOut aria-hidden="true" />
               <span>Cerrar sesión</span>
             </SidebarMenuButton>
           </SidebarMenuItem>

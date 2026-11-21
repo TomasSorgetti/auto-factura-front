@@ -1,26 +1,44 @@
-import { Outlet } from 'react-router'
+import { ChevronRight, PanelsTopLeft } from 'lucide-react'
+import { Link, Outlet, useLocation } from 'react-router'
 import { AppSidebar } from '@/components/app/AppSidebar'
 import { ThemeToggle } from '@/components/app/ThemeToggle'
-import { Separator } from '@/components/ui/separator'
 import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { TooltipProvider } from '@/components/ui/tooltip'
 
 export function AdminLayout() {
+  const { pathname } = useLocation()
+  const isClient = pathname.startsWith('/app/clients')
+  const detail = isClient && pathname.split('/').filter(Boolean).length > 2
+  const section = isClient ? 'Clientes' : pathname.startsWith('/app/settings') ? 'Configuración' : 'Inicio'
   return (
     <TooltipProvider>
-      <SidebarProvider>
+      <SidebarProvider className="app-shell">
         <AppSidebar />
-        <SidebarInset className="bg-muted/30">
-          <header className="sticky top-0 z-10 flex h-14 items-center gap-2 border-b bg-background/80 px-4 backdrop-blur">
+        <SidebarInset className="min-w-0">
+          <header className="workspace-bar">
             <SidebarTrigger aria-label="Abrir o cerrar menú" />
-            <Separator orientation="vertical" className="h-4" />
+            <span className="workspace-divider" />
+            <nav aria-label="Ruta de navegación">
+              <PanelsTopLeft aria-hidden="true" />
+              <span className="crumb-workspace">Mi espacio</span>
+              <ChevronRight aria-hidden="true" />
+              {detail ? (
+                <>
+                  <Link to="/app/clients">Clientes</Link>
+                  <ChevronRight aria-hidden="true" />
+                  <span>Detalle</span>
+                </>
+              ) : (
+                <span>{section}</span>
+              )}
+            </nav>
             <div className="ml-auto">
               <ThemeToggle />
             </div>
           </header>
-          <main className="flex flex-1 flex-col gap-4 p-4 md:p-8">
+          <div className="workspace-page">
             <Outlet />
-          </main>
+          </div>
         </SidebarInset>
       </SidebarProvider>
     </TooltipProvider>

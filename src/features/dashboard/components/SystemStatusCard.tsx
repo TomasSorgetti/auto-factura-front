@@ -1,6 +1,6 @@
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { ApiError } from '@/lib/api'
 import { API_ERROR_CODES, getErrorMessage } from '@/lib/errors'
@@ -30,6 +30,7 @@ export function SystemStatusCard() {
     <Card>
       <CardHeader>
         <CardTitle>Estado del sistema</CardTitle>
+        <CardDescription>Estado actual de los servicios de la API.</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-3">
         {isPending && (
@@ -39,7 +40,7 @@ export function SystemStatusCard() {
           </>
         )}
         {data &&
-          Object.keys(data.checks).map((name) => <CheckRow key={name} name={name} status={CHECK_STATUS.ok} />)}
+          Object.entries(data.checks).map(([name, status]) => <CheckRow key={name} name={name} status={status} />)}
         {error instanceof ApiError && error.code === API_ERROR_CODES.SERVICE_NOT_READY ? (
           Object.entries(error.fields).map(([name, value]) => (
             <CheckRow key={name} name={name} status={value === CHECK_STATUS.down ? CHECK_STATUS.down : CHECK_STATUS.ok} />

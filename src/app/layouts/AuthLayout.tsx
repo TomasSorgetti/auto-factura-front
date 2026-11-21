@@ -1,19 +1,33 @@
-import { Receipt } from 'lucide-react'
 import { Outlet } from 'react-router'
-import { Card, CardContent } from '@/components/ui/card'
+import { InvoiceIllustration } from '@/components/app/InvoiceIllustration'
+import { ThemeToggle } from '@/components/app/ThemeToggle'
 
 export function AuthLayout() {
   return (
-    <main className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-4">
-      <div className="flex items-center gap-2 text-lg font-semibold">
-        <Receipt className="size-5" aria-hidden="true" />
-        Auto Factura
-      </div>
-      <Card className="w-full max-w-sm">
-        <CardContent>
+    <main className="auth-layout">
+      <aside className="auth-art">
+        <div className="auth-brand">
+          <img src="/favicon.svg" alt="" />
+          Auto Factura
+        </div>
+        <InvoiceIllustration />
+        <div className="auth-art-caption">
+          <p>ARCA / Monotributo</p>
+          <h2>
+            Facturación
+            <br />
+            electrónica.
+          </h2>
+        </div>
+      </aside>
+      <section className="auth-form">
+        <div className="auth-tools">
+          <ThemeToggle />
+        </div>
+        <div className="auth-form-content">
           <Outlet />
-        </CardContent>
-      </Card>
+        </div>
+      </section>
     </main>
   )
 }

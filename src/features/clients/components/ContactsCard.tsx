@@ -1,4 +1,4 @@
-import { Pencil, Plus, Trash2 } from 'lucide-react'
+import { Mail, Pencil, Plus, Trash2 } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -19,7 +19,7 @@ export function ContactsCard({ contacts, readOnly, onAdd, onEdit, onDelete }: Co
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between gap-2">
-        <CardTitle>Contactos</CardTitle>
+        <CardTitle className="section-title"><Mail aria-hidden="true" />Contactos</CardTitle>
         {!readOnly && (
           <div className="flex items-center gap-3">
             {limitReached && <span className="text-muted-foreground text-sm">Máximo 20 contactos.</span>}
