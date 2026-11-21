@@ -42,6 +42,7 @@
   gap: 12px;
 }
 .overview-tile {
+  --tile-accent: var(--primary);
   position: relative;
   display: flex;
   flex-direction: column;
@@ -65,7 +66,7 @@
   position: absolute;
   inset: 0;
   z-index: -1;
-  background-image: radial-gradient(var(--art-grid) 0.85px, transparent 0.85px);
+  background-image: radial-gradient(color-mix(in srgb, var(--tile-accent) 20%, transparent) 0.85px, transparent 0.85px);
   background-size: 12px 12px;
   mask-image: linear-gradient(transparent 15%, black 52%, transparent 99%);
 }
@@ -104,21 +105,21 @@
     color 180ms;
 }
 .billing-tile {
-  color: #f0f8f2;
-  border-color: #30503d;
+  color: #f1f5ff;
+  border-color: #354967;
   padding: 22px;
-  background: radial-gradient(ellipse at 91% 52%, #20402e 0%, #142b1f 43%, #122219 83%);
+  background: radial-gradient(ellipse at 91% 52%, #293e60 0%, #1b2b44 43%, #182337 83%);
 }
 .billing-tile::before {
-  background-image: radial-gradient(#83ca933e 0.9px, transparent 0.9px);
+  background-image: radial-gradient(#82aaff3e 0.9px, transparent 0.9px);
   background-size: 11px 11px;
   mask-image: linear-gradient(100deg, transparent, #000 65%);
 }
 .billing-tile .tile-title svg {
-  color: #9ddab4;
+  color: #a8c4ff;
 }
 .billing-tile .tile-arrow {
-  color: #a0c8af;
+  color: #acc0e6;
 }
 .billing-total {
   margin-top: 22px;
@@ -132,7 +133,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: #adc0b2;
+  color: #b7c5dd;
   font-size: 0.68rem;
   margin-top: 9px;
 }
@@ -171,17 +172,23 @@
   gap: 4px;
 }
 .billing-breakdown > span + span {
-  border-left: 1px solid #3b5041;
+  border-left: 1px solid #3b4c69;
   padding-left: 14px;
 }
 .billing-breakdown small {
-  color: #b2c4b7;
+  color: #bbcae2;
   font-size: 0.68rem;
 }
 .billing-breakdown strong {
   font-size: 0.86rem;
   font-weight: 550;
   letter-spacing: -0.02em;
+}
+.automation-tile {
+  --circuit-line: color-mix(in srgb, var(--tile-accent) 42%, var(--border));
+}
+.tax-tile {
+  --tile-accent: var(--chart-5);
 }
 .circuit-art,
 .tax-art {
@@ -198,26 +205,26 @@
   stroke: var(--circuit-line);
   fill: var(--card);
 }
-.circuit-node svg {
-  color: var(--muted-foreground);
-}
 .circuit-halo {
-  fill: var(--accent);
+  fill: color-mix(in srgb, var(--tile-accent) 12%, var(--card));
   stroke: var(--circuit-line);
 }
 .circuit-core {
   fill: var(--card);
-  stroke: var(--chart-1);
+  stroke: var(--tile-accent);
 }
 .circuit-bolt {
-  fill: var(--chart-1);
-  color: var(--chart-1);
+  fill: var(--tile-accent);
+  color: var(--tile-accent);
 }
 .circuit-signal {
-  stroke: var(--chart-1);
-  stroke-width: 2;
-  stroke-dasharray: 14 100;
-  stroke-dashoffset: 25;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-dasharray: 18 120;
+  stroke-dashoffset: 20;
+}
+.meter-tip {
+  filter: drop-shadow(0 0 2px var(--tile-accent)) drop-shadow(0 0 4px var(--tile-accent));
 }
 .tax-art {
   height: 113px;
@@ -247,14 +254,107 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--chart-1);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--chart-1) 12%, transparent);
+  background: var(--tile-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tile-accent) 12%, transparent);
 }
 .dashboard-panels {
   display: grid;
   grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
   gap: 14px;
   margin-top: 16px;
+}
+.activity-card {
+  --event-color: var(--primary);
+  container: activity / inline-size;
+}
+.activity-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.18fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: center;
+}
+.activity-history {
+  --fade-top: 0px;
+  --fade-bottom: 0px;
+  position: relative;
+  max-height: 16.25rem;
+  overflow-y: auto;
+  scrollbar-width: none;
+  mask-image: linear-gradient(to bottom, transparent, black var(--fade-top),
+    black calc(100% - var(--fade-bottom)), transparent);
+}
+.activity-history::-webkit-scrollbar { display: none; }
+.activity-history[data-at-start='false'] { --fade-top: 12px; }
+.activity-history[data-at-end='false'] { --fade-bottom: 14px; }
+.activity-history:focus-visible { outline: 2px solid var(--ring); outline-offset: -2px; }
+.activity-navigation {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-top: 4px;
+  color: var(--muted-foreground);
+  font-size: .72rem;
+}
+.activity-navigation > span { margin-right: auto; }
+@media (prefers-reduced-motion: no-preference) {
+  .activity-history { scroll-behavior: smooth; }
+  .activity-event {
+    opacity: var(--event-opacity, 1);
+    transform: translateY(var(--event-offset, 0px));
+    transition: opacity 100ms ease-out, transform 100ms ease-out;
+  }
+}
+.activity-card [data-kind='payment'] { --event-color: var(--success); }
+.activity-card [data-kind='portal'] { --event-color: var(--chart-5); }
+.activity-card [data-kind='quote'] { --event-color: var(--chart-4); }
+.activity-art {
+  position: relative;
+  height: 236px;
+  overflow: hidden;
+  pointer-events: none;
+  background-image: radial-gradient(color-mix(in srgb, var(--primary) 24%, transparent) 0.8px, transparent 0.8px);
+  background-size: 9px 9px;
+  mask-image: linear-gradient(transparent, black 18%, black 78%, transparent);
+}
+.activity-reel {
+  width: min(82%, 320px);
+  margin-inline: auto;
+  rotate: -6deg;
+  transform-origin: center 118px;
+}
+.activity-slip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 42px;
+  margin-inline: 1px;
+  padding: 0 14px;
+  border: 1px solid color-mix(in srgb, var(--event-color) 32%, var(--border));
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--event-color) 5%, var(--card));
+  color: var(--event-color);
+}
+.activity-reel > div { display: grid; gap: 10px; padding-bottom: 10px; }
+.activity-slip svg { width: 20px; height: 20px; flex: none; }
+.activity-slip-lines {
+  flex: 1;
+  height: 10px;
+  background: linear-gradient(currentColor, currentColor) left top / 86% 1px no-repeat,
+              linear-gradient(currentColor, currentColor) left bottom / 54% 1px no-repeat;
+  opacity: 0.5;
+}
+.activity-slip i { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+@container activity (max-width: 540px) {
+  .activity-body { grid-template-columns: minmax(0, 1fr); }
+  .activity-art { grid-row: 1; height: 140px; }
+  .activity-reel { transform-origin: center 70px; }
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .activity-reel { animation: activity-scroll 6s linear infinite paused; }
+  .activity-card:hover .activity-reel { animation-play-state: running; }
+}
+@keyframes activity-scroll {
+  to { transform: translateY(-50%); }
 }
 .panel {
   min-width: 0;
@@ -345,15 +445,15 @@
 }
 @media (hover: hover) and (pointer: fine) {
   .overview-tile:hover {
-    border-color: var(--circuit-line);
-    box-shadow: inset 0 0 32px color-mix(in srgb, var(--primary) 4%, transparent);
+    border-color: color-mix(in srgb, var(--tile-accent) 42%, var(--border));
+    box-shadow: inset 0 0 32px color-mix(in srgb, var(--tile-accent) 4%, transparent);
   }
   .billing-tile:hover {
-    border-color: #628d70;
+    border-color: #6586c2;
   }
   .overview-tile:hover .tile-arrow {
     transform: translate(2px, -2px);
-    color: var(--primary);
+    color: var(--tile-accent);
   }
   .billing-tile:hover .sheet-3 {
     transform: translateY(-12px);
@@ -365,26 +465,35 @@
     transform: translateY(4px);
   }
   .automation-tile:hover .circuit-signal {
-    animation: transmit 1.2s linear infinite;
+    animation: transmit 1.65s linear infinite;
+  }
+  .automation-tile:hover .circuit-output {
+    animation-delay: 550ms;
   }
   .tax-tile:hover .tax-art {
     transform: translateY(-3px);
   }
-  .tax-tile:hover .meter-active {
-    animation: meter-sweep 300ms ease-out;
+  .tax-tile:hover .meter-sweep-tick {
+    animation: meter-sweep 1.8s ease-in-out infinite;
+  }
+  .tax-tile:hover .meter-tip {
+    animation: meter-pulse 1.2s ease-in-out infinite;
   }
   .tax-art {
     transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 }
 @keyframes meter-sweep {
-  50% {
-    stroke: #b9facf;
-  }
+  0%, 16%, 100% { stroke: currentColor; }
+  6% { stroke: #fcf9ff; }
+}
+@keyframes meter-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.28; }
 }
 @keyframes transmit {
-  to {
-    stroke-dashoffset: -89;
+  46%, to {
+    stroke-dashoffset: -101;
   }
 }
 @container (max-width: 880px) {

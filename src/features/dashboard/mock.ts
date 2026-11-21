@@ -124,9 +124,16 @@ export const OPEN_QUOTES: OpenQuote[] = [
 ]
 
 export const ACTIVITY: ActivityEvent[] = [
-  { id: 'a1', text: 'Factura 0003-00000012 emitida a Acme S.A.', when: 'Hace 2 h' },
-  { id: 'a2', text: 'Acme S.A. entró al portal', when: 'Hace 5 h' },
-  { id: 'a3', text: 'Pago de $ 280.000,00 imputado a Estudio Rivas', when: 'Ayer' },
-  { id: 'a4', text: 'Presupuesto enviado a Lumen Studio', when: 'Ayer' },
-  { id: 'a5', text: 'Regla mensual de Panadería Sur ejecutada', when: '19/11/2026' },
+  { id: 'a1', kind: 'invoice', text: 'Factura 0003-00000012 emitida a Acme S.A.', when: 'Hace 2 h' },
+  { id: 'a2', kind: 'portal', text: 'Acme S.A. entró al portal', when: 'Hace 5 h' },
+  { id: 'a3', kind: 'payment', text: 'Pago de $ 280.000,00 imputado a Estudio Rivas', when: 'Ayer' },
+  { id: 'a4', kind: 'quote', text: 'Presupuesto enviado a Lumen Studio', when: 'Ayer' },
+  { id: 'a5', kind: 'automation', text: 'Regla mensual de Panadería Sur ejecutada', when: '19/11/2026' },
+  { id: 'a6', kind: 'payment', text: 'Pago de Lumen Studio registrado', when: '18/11/2026' },
+  { id: 'a7', kind: 'invoice', text: 'Factura 0003-00000011 emitida a Estudio Rivas', when: '18/11/2026' },
+  { id: 'a8', kind: 'quote', text: 'Presupuesto enviado a Panadería Sur', when: '17/11/2026' },
+  { id: 'a9', kind: 'portal', text: 'Estudio Rivas consultó sus comprobantes', when: '16/11/2026' },
+  { id: 'a10', kind: 'automation', text: 'Recordatorio de cobro enviado a Acme S.A.', when: '15/11/2026' },
+  { id: 'a11', kind: 'payment', text: 'Pago de Panadería Sur registrado', when: '14/11/2026' },
+  { id: 'a12', kind: 'invoice', text: 'Factura 0003-00000010 emitida a Lumen Studio', when: '13/11/2026' },
 ]

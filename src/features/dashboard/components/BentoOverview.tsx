@@ -27,19 +27,33 @@ import { MONOTRIBUTO_CAP_CENTS, MONOTRIBUTO_USED_CENTS, MONTHLY_BILLING, UPCOMIN
 import { formatWholeARS } from '@/lib/money'
 
 function Circuit() {
+  const id = useId()
   return (
     <svg className="circuit-art" viewBox="0 0 240 112" fill="none" aria-hidden="true">
+      <defs>
+        <linearGradient id={`${id}-input`} gradientUnits="userSpaceOnUse" x1="55" x2="90">
+          <stop stopColor="var(--success)" /><stop offset="1" stopColor="var(--primary)" />
+        </linearGradient>
+        <linearGradient id={`${id}-file`} gradientUnits="userSpaceOnUse" x1="144" x2="181">
+          <stop stopColor="var(--primary)" /><stop offset="1" stopColor="var(--chart-5)" />
+        </linearGradient>
+        <linearGradient id={`${id}-mail`} gradientUnits="userSpaceOnUse" x1="144" x2="181">
+          <stop stopColor="var(--primary)" /><stop offset="1" stopColor="var(--chart-4)" />
+        </linearGradient>
+      </defs>
       <g stroke="currentColor" strokeWidth="1.25">
         <path d="M-8 56h111M131 56h15q10 0 10-10v-9q0-9 10-9h77M131 56h15q10 0 10 10v9q0 9 10 9h77" />
-        <path className="circuit-signal" d="M44 56h62m27 0h13q10 0 10-10v-9q0-9 10-9h19" />
+        <path className="circuit-signal" pathLength="100" stroke={`url(#${id}-input)`} d="M52 56h44" />
+        <path className="circuit-signal circuit-output" pathLength="100" stroke={`url(#${id}-file)`} d="M138 56h8q10 0 10-10v-9q0-9 10-9h18" />
+        <path className="circuit-signal circuit-output" pathLength="100" stroke={`url(#${id}-mail)`} d="M138 56h8q10 0 10 10v9q0 9 10 9h18" />
       </g>
       <g className="circuit-node">
         <rect x="20" y="39" width="35" height="34" rx="8" />
-        <CalendarDays x="29" y="47" width="17" height="17" />
+        <CalendarDays color="var(--success)" x="29" y="47" width="17" height="17" />
         <rect x="181" y="11" width="35" height="34" rx="8" />
-        <FileText x="190" y="19" width="17" height="17" />
+        <FileText color="var(--chart-5)" x="190" y="19" width="17" height="17" />
         <rect x="181" y="67" width="35" height="34" rx="8" />
-        <Mail x="190" y="76" width="17" height="17" />
+        <Mail color="var(--chart-4)" x="190" y="76" width="17" height="17" />
       </g>
       <rect x="90" y="29" width="54" height="54" rx="14" className="circuit-halo" />
       <rect x="95" y="34" width="44" height="44" rx="10" className="circuit-core" />
@@ -48,29 +62,33 @@ function Circuit() {
   )
 }
 
+const TICK_COUNT = 43
+
 function TaxMeter({ percent }: { percent: number }) {
-  const id = useId()
-  const activeTicks = Math.round((percent * 43) / 100)
+  const activeTicks = Math.round((percent * TICK_COUNT) / 100)
+  const endAngle = ((activeTicks - 1) * 180) / (TICK_COUNT - 1)
   return (
     <svg className="tax-art" viewBox="0 0 210 120" aria-hidden="true">
-      <defs>
-        <linearGradient id={id} gradientUnits="userSpaceOnUse" x1="24" x2="37">
-          <stop stopColor="#43946d" />
-          <stop offset="1" stopColor="#8fe7ad" />
-        </linearGradient>
-      </defs>
-      <g strokeWidth="3.3">
-        {Array.from({ length: 43 }, (_, i) => (
+      <g stroke="currentColor" strokeWidth="3.3">
+        {Array.from({ length: TICK_COUNT }, (_, i) => (
           <path
             key={i}
             d="M24 98h13"
-            transform={`rotate(${(i * 180) / 42} 105 98)`}
-            className={i < activeTicks ? 'meter-active' : undefined}
-            style={{ animationDelay: `${i * 14}ms` }}
-            stroke={i < activeTicks ? `url(#${id})` : 'var(--meter-idle)'}
+            transform={`rotate(${(i * 180) / (TICK_COUNT - 1)} 105 98)`}
+            className={i < activeTicks - 1 ? 'meter-sweep-tick' : undefined}
+            style={i < activeTicks - 1 ? { animationDelay: `${i * 24}ms` } : undefined}
+            color={i < activeTicks
+              ? `color-mix(in oklab, var(--tile-accent), #48227d ${(i / Math.max(activeTicks - 1, 1)) * 78}%)`
+              : 'var(--meter-idle)'}
           />
         ))}
       </g>
+      {activeTicks > 0 && (
+        <g transform={`rotate(${endAngle} 105 98)`} strokeLinecap="round">
+          <path d="M24 98h13" stroke="var(--tile-accent)" strokeWidth="5" />
+          <path className="meter-tip" d="M24 98h13" stroke="#fcf9ff" strokeWidth="2.8" />
+        </g>
+      )}
       <path d="M43 98a62 62 0 0 1 124 0" fill="none" stroke="var(--meter-idle)" strokeDasharray="2 4" />
       <text x="105" y="87" textAnchor="middle" className="meter-value">
         {percent}

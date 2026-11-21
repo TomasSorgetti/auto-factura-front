@@ -18,7 +18,7 @@ function CheckRow({ name, status }: { name: string; status: CheckStatus }) {
   return (
     <div className="flex items-center justify-between">
       <span className="text-sm">{CHECK_LABELS[name] ?? name}</span>
-      <Badge variant={isDown ? 'destructive' : 'secondary'}>{isDown ? 'Caído' : 'Funcionando'}</Badge>
+      <Badge variant={isDown ? 'destructive' : 'success'}>{isDown ? 'Caído' : 'Funcionando'}</Badge>
     </div>
   )
 }

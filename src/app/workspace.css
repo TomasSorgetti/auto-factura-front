@@ -169,16 +169,16 @@
   justify-content: space-between;
   padding: clamp(24px, 4.5vw, 72px);
   border-radius: 16px;
-  border: 1px solid #2c4636;
-  color: #ecf5ee;
-  background: radial-gradient(ellipse at 65% 46%, #244233, #14251b 54%, #111d16);
+  border: 1px solid #32435e;
+  color: #edf2ff;
+  background: radial-gradient(ellipse at 65% 46%, #283d61, #182337 54%, #111a2a);
 }
 .auth-art::before {
   content: '';
   position: absolute;
   inset: 0;
   z-index: -1;
-  background-image: radial-gradient(#80c2924a 0.9px, transparent 0.9px);
+  background-image: radial-gradient(#82aaff4a 0.9px, transparent 0.9px);
   background-size: 15px 15px;
   mask-image: linear-gradient(150deg, transparent, black 40%, transparent);
 }
@@ -202,7 +202,7 @@
   font:
     0.71rem ui-monospace,
     monospace;
-  color: #a8c5b0;
+  color: #b2c4e3;
   margin-bottom: 12px;
 }
 .auth-art-caption h2 {

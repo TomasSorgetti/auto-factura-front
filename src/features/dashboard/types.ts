@@ -68,6 +68,7 @@ export type OpenQuote = {
 
 export type ActivityEvent = {
   id: string
+  kind: 'invoice' | 'portal' | 'payment' | 'quote' | 'automation'
   text: string
   when: string
 }

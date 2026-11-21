@@ -9,12 +9,12 @@ export function InvoiceIllustration() {
     <svg className="invoice-art" viewBox="0 0 300 230" fill="none" aria-hidden="true">
       <defs>
         <linearGradient id={id} x1="0" y1="0" x2="110" y2="141" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#315c48" />
-          <stop offset=".54" stopColor="#1c3e30" />
-          <stop offset="1" stopColor="#122c22" />
+          <stop stopColor="#354f7c" />
+          <stop offset=".54" stopColor="#263e63" />
+          <stop offset="1" stopColor="#192b48" />
         </linearGradient>
       </defs>
-      <g stroke="#5de1a3" opacity=".21" strokeDasharray="3 5">
+      <g stroke="#82aaff" opacity=".21" strokeDasharray="3 5">
         <path d="m5 157 126 52 160-94M31 95l150 60 108-62M50 184l153-88M98 210l150-87" />
       </g>
       {[52, 35, 18, 0].map((offset, i) => (
@@ -23,18 +23,18 @@ export function InvoiceIllustration() {
             <g transform="matrix(1.02 .43 -.76 .6 151 24)">
               <path
                 d={paper}
-                fill={i === 3 ? `url(#${id})` : ['#13271e', '#173527', '#204532'][i]}
-                stroke={['#315a44', '#437558', '#639b76', '#93dbad'][i]}
+                fill={i === 3 ? `url(#${id})` : ['#162337', '#1b2c49', '#253c5f'][i]}
+                stroke={['#365178', '#476797', '#6890c5', '#a3c2ff'][i]}
                 strokeWidth="1.5"
               />
               {i === 3 && (
-                <g stroke="#9bd9b2">
+                <g stroke="#adcbff">
                   <rect x="12" y="12" width="22" height="22" rx="3" />
                   <text
                     x="23"
                     y="28"
                     textAnchor="middle"
-                    fill="#c6f7d5"
+                    fill="#e1edff"
                     stroke="none"
                     fontSize="16"
                     fontWeight="600"
@@ -44,7 +44,7 @@ export function InvoiceIllustration() {
                   <text
                     x="44"
                     y="23"
-                    fill="#bce9c9"
+                    fill="#cddfff"
                     stroke="none"
                     fontFamily="monospace"
                     fontSize="9"
