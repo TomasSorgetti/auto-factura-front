@@ -5,7 +5,7 @@ import type { ChartConfig } from '@/components/ui/chart'
 import { CLIENT_SHARES } from '@/features/dashboard/mock'
 
 const config = {
-  percent: { label: 'Ingresos', color: 'var(--chart-5)' },
+  percent: { label: 'Ingresos', color: 'var(--chart-1)' },
 } satisfies ChartConfig
 
 export function ClientShareChart() {

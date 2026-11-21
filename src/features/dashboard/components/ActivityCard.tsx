@@ -15,7 +15,7 @@ export function ActivityCard() {
               {index < ACTIVITY.length - 1 && (
                 <span className="absolute top-3 left-1 h-full w-px bg-border" aria-hidden="true" />
               )}
-              <span className="mt-1.5 size-2 shrink-0 rounded-full bg-foreground" aria-hidden="true" />
+              <span className="mt-1.5 size-2 shrink-0 rounded-full bg-primary" aria-hidden="true" />
               <div className="flex flex-col">
                 <span className="text-sm">{event.text}</span>
                 <span className="text-xs text-muted-foreground">{event.when}</span>

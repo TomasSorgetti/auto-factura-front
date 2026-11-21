@@ -12,7 +12,7 @@ import {
 } from '@/features/dashboard/mock'
 
 const config = {
-  accumulatedCents: { label: 'Facturación acumulada', color: 'var(--chart-5)' },
+  accumulatedCents: { label: 'Facturación acumulada', color: 'var(--chart-1)' },
   projectedCents: { label: 'Proyección', color: 'var(--chart-2)' },
 } satisfies ChartConfig
 

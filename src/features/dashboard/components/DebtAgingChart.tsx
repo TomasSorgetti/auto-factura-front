@@ -6,7 +6,7 @@ import { formatARS } from '@/lib/money'
 import { DEBT_BUCKETS } from '@/features/dashboard/mock'
 
 const config = {
-  amountCents: { label: 'Pendiente', color: 'var(--chart-5)' },
+  amountCents: { label: 'Pendiente', color: 'var(--chart-1)' },
 } satisfies ChartConfig
 
 const compact = new Intl.NumberFormat('es-AR', { notation: 'compact', maximumFractionDigits: 1 })

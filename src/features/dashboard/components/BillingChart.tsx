@@ -12,8 +12,8 @@ import { formatARS } from '@/lib/money'
 import { MONTHLY_BILLING } from '@/features/dashboard/mock'
 
 const config = {
-  invoicedCents: { label: 'Facturado', color: 'var(--chart-5)' },
-  collectedCents: { label: 'Cobrado', color: 'var(--chart-2)' },
+  invoicedCents: { label: 'Facturado', color: 'var(--chart-1)' },
+  collectedCents: { label: 'Cobrado', color: 'var(--chart-3)' },
 } satisfies ChartConfig
 
 const compact = new Intl.NumberFormat('es-AR', { notation: 'compact', maximumFractionDigits: 1 })
