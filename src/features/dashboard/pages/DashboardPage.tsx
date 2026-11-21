@@ -35,17 +35,31 @@ export function DashboardPage() {
           <KpiCard key={kpi.id} label={kpi.label} valueCents={kpi.valueCents} hint={kpi.hint} trend={kpi.trend} />
         ))}
       </div>
-      <ReportCard />
-      <div className="grid gap-4 lg:grid-cols-2">
-        <div className="lg:col-span-2">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-12">
+        <div className="flex flex-col *:flex-1 md:col-span-2 xl:col-span-8">
           <MonotributoChart />
         </div>
-        <BillingChart />
-        <ClientShareChart />
-        <DebtAgingChart />
-        <UpcomingCard />
-        <ActivityCard />
-        <SystemStatusCard />
+        <div className="flex flex-col *:flex-1 md:col-span-2 xl:col-span-4">
+          <ReportCard />
+        </div>
+        <div className="flex flex-col *:flex-1 xl:col-span-4">
+          <BillingChart />
+        </div>
+        <div className="flex flex-col *:flex-1 xl:col-span-4">
+          <ClientShareChart />
+        </div>
+        <div className="flex flex-col *:flex-1 md:col-span-2 xl:col-span-4">
+          <DebtAgingChart />
+        </div>
+        <div className="flex flex-col *:flex-1 xl:col-span-5">
+          <UpcomingCard />
+        </div>
+        <div className="flex flex-col *:flex-1 xl:col-span-4">
+          <ActivityCard />
+        </div>
+        <div className="flex flex-col *:flex-1 md:col-span-2 xl:col-span-3">
+          <SystemStatusCard />
+        </div>
       </div>
     </div>
   )
